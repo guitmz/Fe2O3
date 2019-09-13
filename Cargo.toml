@@ -1,5 +1,5 @@
 [package]
 name = "Linux.Fe2O3"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Guilherme Thomazi Bonicontro <thomazi@linux.com>"]
 edition = "2019"

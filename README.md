@@ -3,8 +3,8 @@
 This is a POC ELF prepender written in Rust. I like writting prependers on languages that I'm learning and find interesting. As for the name, `Fe2O3` is the chemical formula of Rust, I thought it was appropriate.
 
 # Build
-```$ cd src
-$ rustc main.rs -o Linux.Fe2O3
+```
+$ rustc src/main.rs -o Linux.Fe2O3
 ```
 
 Note that the Rust version used is `rustc 1.37.0 (eae3437df 2019-08-13)`, the latest at this moment.

